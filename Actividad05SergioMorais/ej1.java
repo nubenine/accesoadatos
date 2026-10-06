@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class ej1 {
     private static final int TITULO_LONG = 30;
     private static final int AUTOR_LONG = 50;
+    private static final int REGISTRO_SIZE = 86;
     public static void alta() throws IOException {
         String[] titulos = {"Big Dick Randy", "Sus didy", "Siseben", "Aaayyy"};
         String[] autores = {"Nigga", "Diddy ahh foid", "Sixevenaldo Da Silva Junior", "Ay que miedo yo me void::eyes:"};
@@ -40,6 +41,50 @@ public class ej1 {
         }
 
     }
+    public static void listado() {
+        try {
+            RandomAccessFile raf = new RandomAccessFile("C:\\Users\\sergio\\IdeaProjects\\acesodatos1\\src\\Actividad05SergioMorais\\libros.dat", "r");
+            double precioTotal = 0;
+
+            while (raf.getFilePointer()<raf.length()){
+                int id = raf.readInt();
+                char[] tituloChars = new char[TITULO_LONG];
+                for (int i = 0; i < TITULO_LONG; i++) {
+                    tituloChars[i] = raf.readChar();
+                }
+                String titulo = new String(tituloChars).replace("\u0000", "");
+                char[] autorChars = new char[AUTOR_LONG];
+                for (int i = 0; i < AUTOR_LONG; i++) {
+                    autorChars[i] = raf.readChar();
+                }
+                String autor = new String(autorChars).replace("\u0000", "");
+                double precio = raf.readDouble();
+                int stock = raf.readInt();
+                System.out.println("\nLibro: " +
+                        "\n\t-Codigo: " + id +
+                        "\n\t-Titulo " + titulo  +
+                        "\n\t-Autor: " + autor +
+                        "\n\t-Precio: " + precio +
+                        "\n\t-Stock: " + stock);
+                precioTotal += (precio*stock);
+            }
+            System.out.println("\n\n\t\tVALOR TOTAL DEL INVENTARIO: " + precioTotal + "€");
+
+
+        } catch (IOException e) {
+            System.out.println("Aaaay\uD83D\uDC40");
+        }
+
+
+    }
+    public static void consulta1() throws IOException{
+        RandomAccessFile raf = new RandomAccessFile("C:\\Users\\sergio\\IdeaProjects\\acesodatos1\\src\\Actividad05SergioMorais\\libros.dat", "r");
+        Scanner sc = new Scanner(System.in);
+        int codigo;
+        System.out.print("Introduce el codigo del libro a buscar: ");
+        codigo = sc.nextInt();
+        raf.seek((long) codigo * REGISTRO_SIZE);
+    }
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
 
@@ -66,8 +111,7 @@ public class ej1 {
                     alta();
                     break;
                 case 2:
-                    //codigo nigga
-                    System.out.println();
+                    listado();
                     break;
                 case 3:
                     //codigo nigga 67 george floyd

@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class ej1 {
     private static final int TITULO_LONG = 30;
     private static final int AUTOR_LONG = 50;
-    private static final int REGISTRO_SIZE = 86;
+    private static final int REGISTRO_SIZE = 176;
     public static void alta() throws IOException {
         String[] titulos = {"Big Dick Randy", "Sus didy", "Siseben", "Aaayyy"};
         String[] autores = {"Nigga", "Diddy ahh foid", "Sixevenaldo Da Silva Junior", "Ay que miedo yo me void::eyes:"};
@@ -62,7 +62,7 @@ public class ej1 {
                 int stock = raf.readInt();
                 System.out.println("\nLibro: " +
                         "\n\t-Codigo: " + id +
-                        "\n\t-Titulo " + titulo  +
+                        "\n\t-Titulo: " + titulo  +
                         "\n\t-Autor: " + autor +
                         "\n\t-Precio: " + precio +
                         "\n\t-Stock: " + stock);
@@ -83,7 +83,152 @@ public class ej1 {
         int codigo;
         System.out.print("Introduce el codigo del libro a buscar: ");
         codigo = sc.nextInt();
-        raf.seek((long) codigo * REGISTRO_SIZE);
+        raf.seek((long) (codigo-1) * REGISTRO_SIZE);
+        int id = raf.readInt();
+        char[] tituloChars = new char[TITULO_LONG];
+        for (int i = 0; i < TITULO_LONG; i++) {
+            tituloChars[i] = raf.readChar();
+        }
+        String titulo = new String(tituloChars).replace("\u0000", "");
+        char[] autorChars = new char[AUTOR_LONG];
+        for (int i = 0; i < AUTOR_LONG; i++) {
+            autorChars[i] = raf.readChar();
+        }
+        String autor = new String(autorChars).replace("\u0000", "");
+        double precio = raf.readDouble();
+        int stock = raf.readInt();
+        System.out.println("\nLibro: " +
+                "\n\t-Codigo: " + id +
+                "\n\t-Titulo " + titulo  +
+                "\n\t-Autor: " + autor +
+                "\n\t-Precio: " + precio +
+                "\n\t-Stock: " + stock);
+
+    }
+    public static void consulta2() throws IOException{
+        RandomAccessFile raf = new RandomAccessFile("C:\\Users\\sergio\\IdeaProjects\\acesodatos1\\src\\Actividad05SergioMorais\\libros.dat", "r");
+        Scanner sc = new Scanner(System.in);
+        int ejemplaresAutor = 0;
+        boolean encontrado = false;
+        String autorConsulta;
+        System.out.print("Introduce el nombre de un autor para buscar: ");
+        autorConsulta = sc.nextLine();
+        while (raf.getFilePointer()<raf.length()){
+            int id = raf.readInt();
+            char[] tituloChars = new char[TITULO_LONG];
+            for (int i = 0; i < TITULO_LONG; i++) {
+                tituloChars[i] = raf.readChar();
+            }
+            String titulo = new String(tituloChars).replace("\u0000", "");
+            char[] autorChars = new char[AUTOR_LONG];
+            for (int i = 0; i < AUTOR_LONG; i++) {
+                autorChars[i] = raf.readChar();
+            }
+            String autor = new String(autorChars).replace("\u0000", "");
+            double precio = raf.readDouble();
+            int stock = raf.readInt();
+
+
+            if (autor.equalsIgnoreCase(autorConsulta)){
+                encontrado=true;
+                ejemplaresAutor += stock;
+                System.out.println("\nLibro: " +
+                        "\n\t-Codigo: " + id +
+                        "\n\t-Titulo: " + titulo  +
+                        "\n\t-Autor: " + autor +
+                        "\n\t-Precio: " + precio +
+                        "\n\t-Stock: " + stock );
+            }
+        }
+        if (!encontrado){
+            System.out.println("Ouuu\uD83D\uDC40. Autor no encontrado broski");
+        } else {
+            System.out.println("\n\t-Ejemplares del autor encontrados: " + ejemplaresAutor);
+        }
+    }
+    public static void modificarAutor() throws IOException{
+        RandomAccessFile raf = new RandomAccessFile("C:\\Users\\sergio\\IdeaProjects\\acesodatos1\\src\\Actividad05SergioMorais\\libros.dat", "rw");
+        Scanner sc = new Scanner(System.in);
+
+        double precioMod;
+        int codigo, stockMod;
+
+        System.out.println("--MODIFICAR PRECIO Y/O CANTIDAD--");
+        System.out.print("Introduce el codigo del libro a buscar: ");
+        codigo = sc.nextInt();
+
+        raf.seek((long) (codigo - 1) * REGISTRO_SIZE);
+
+        int id = raf.readInt();
+
+        char[] tituloChars = new char[TITULO_LONG];
+        for (int i = 0; i < TITULO_LONG; i++) {
+            tituloChars[i] = raf.readChar();
+        }
+
+        String titulo = new String(tituloChars).replace("\u0000", "");
+
+        char[] autorChars = new char[AUTOR_LONG];
+        for (int i = 0; i < AUTOR_LONG; i++) {
+            autorChars[i] = raf.readChar();
+        }
+
+        String autor = new String(autorChars).replace("\u0000", "");
+
+        double precio = raf.readDouble();
+        int stock = raf.readInt();
+
+        System.out.println("\nLibro: " +
+                "\n\t-Codigo: " + id +
+                "\n\t-Titulo: " + titulo +
+                "\n\t-Autor: " + autor +
+                "\n\t-Precio: " + precio +
+                "\n\t-Stock: " + stock);
+
+        System.out.print("\nNuevo precio: ");
+        precioMod = sc.nextDouble();
+
+        System.out.print("Nuevo stock: ");
+        stockMod = sc.nextInt();
+
+        raf.seek((long) (codigo - 1) * REGISTRO_SIZE + 164);
+
+        raf.writeDouble(precioMod);
+        raf.writeInt(stockMod);
+
+        System.out.println("\nLibro modificado con exito.");
+
+        raf.seek((long) (codigo - 1) * REGISTRO_SIZE);
+
+        id = raf.readInt();
+
+        tituloChars = new char[TITULO_LONG];
+        for (int i = 0; i < TITULO_LONG; i++) {
+            tituloChars[i] = raf.readChar();
+        }
+
+        titulo = new String(tituloChars).replace("\u0000", "");
+
+        autorChars = new char[AUTOR_LONG];
+        for (int i = 0; i < AUTOR_LONG; i++) {
+            autorChars[i] = raf.readChar();
+        }
+
+        autor = new String(autorChars).replace("\u0000", "");
+
+        precio = raf.readDouble();
+        stock = raf.readInt();
+
+        System.out.println("\n--LIBRO MODIFICADO--");
+        System.out.println(
+                "\n\t-Codigo: " + id +
+                        "\n\t-Titulo: " + titulo +
+                        "\n\t-Autor: " + autor +
+                        "\n\t-Precio: " + precio +
+                        "\n\t-Stock: " + stock
+        );
+
+        raf.close();
     }
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
@@ -120,10 +265,12 @@ public class ej1 {
                     switch (opcionConsultas){
                         case 1:
                             //codigo sicseben foid nigga aaayfatfuck
+                            consulta1();
                             System.out.println();
                             break;
                         case 2:
                             //fuck nigga codigo
+                            consulta2();
                             System.out.println();
                             break;
                         case 3:
@@ -132,6 +279,7 @@ public class ej1 {
                     }
                 case 4:
                     //sus didy codigo siseben
+                    modificarAutor();
                     System.out.println();
                     break;
                 case 5:

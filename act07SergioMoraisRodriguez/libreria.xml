@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libreria>
+    <libro codigo="1">
+        <titulo>Big Dick Randy</titulo>
+        <autor>Nigga</autor>
+        <precio>69.42</precio>
+        <cantidad>69</cantidad>
+    </libro>
+    <libro codigo="2">
+        <titulo>Sus didy</titulo>
+        <autor>Diddy ahh foid</autor>
+        <precio>4.0</precio>
+        <cantidad>4</cantidad>
+    </libro>
+    <libro codigo="3">
+        <titulo>Siseben</titulo>
+        <autor>Sixevenaldo Da Silva Junior</autor>
+        <precio>67.67</precio>
+        <cantidad>67</cantidad>
+    </libro>
+    <libro codigo="4">
+        <titulo>Aaayyy</titulo>
+        <autor>Ay que miedo yo me void::eyes:</autor>
+        <precio>1.0</precio>
+        <cantidad>2</cantidad>
+    </libro>
+</libreria>

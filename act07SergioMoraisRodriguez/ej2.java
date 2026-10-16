@@ -12,6 +12,11 @@ public class ej2 {
     public static void main(String[] args) throws Exception {
 
         File archivo = new File("C:\\Users\\sergio\\IdeaProjects\\acesodatos1\\src\\act07SergioMoraisRodriguez\\libreria.xml");
+        if(!archivo.exists()){
+            if (archivo.createNewFile()){
+                System.out.println();
+            }
+        }
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();

@@ -22,7 +22,7 @@ public class ej1 {
 
         File archivoDat = new File("C:\\Users\\sergio\\IdeaProjects\\acesodatos1\\src\\Actividad05SergioMorais\\libros.dat");
 
-        File archivoXml = new File("C:\\Users\\sergio\\IdeaProjects\\acesodatos1\\src\\act07SergioMoraisRodriguezlibreria.xml");
+        File archivoXml = new File("C:\\Users\\sergio\\IdeaProjects\\acesodatos1\\src\\act07SergioMoraisRodriguez\\libreria.xml");
 
         RandomAccessFile raf = new RandomAccessFile(archivoDat, "r");
 
